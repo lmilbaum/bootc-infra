@@ -1,0 +1,21 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - bootc
+  - podman
+  - skopeo
+  - git
+  - jq
+
+runcmd:
+  - |
+    set -euxo pipefail
+
+    bootc --version | tee /var/log/bootc.log
+    podman --version | tee -a /var/log/bootc.log
+    skopeo --version | tee -a /var/log/bootc.log
+
+    touch /var/lib/cloud/bootc-ready
